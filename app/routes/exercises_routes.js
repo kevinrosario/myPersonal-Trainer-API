@@ -1,6 +1,6 @@
 const express = require('express')
 const passport = require('passport')
-const Exercise = require('../models/exercise')
+const Exercise = require('../models/Exercise')
 const customErrors = require('../../lib/custom_errors')
 const handle404 = customErrors.handle404
 const requireOwnership = customErrors.requireOwnership

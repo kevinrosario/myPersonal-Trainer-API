@@ -5,8 +5,10 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 
 // require route files
-const exampleRoutes = require('./app/routes/example_routes')
 const userRoutes = require('./app/routes/user_routes')
+const workoutTemplateRoutes = require('./app/routes/workout_template_routes')
+const workoutStartedRoutes = require('./app/routes/workout_started_routes')
+const exercisesRoutes = require('./app/routes/exercises_routes')
 
 // require error handling middleware
 const errorHandler = require('./lib/error_handler')
@@ -58,8 +60,10 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 // register route files
-app.use(exampleRoutes)
 app.use(userRoutes)
+app.use(workoutTemplateRoutes)
+app.use(workoutStartedRoutes)
+app.use(exercisesRoutes)
 
 // register error handling middleware
 // note that this comes after the route middlewares, because it needs to be

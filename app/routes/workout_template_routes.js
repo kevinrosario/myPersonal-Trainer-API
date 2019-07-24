@@ -8,8 +8,9 @@ const removeBlanks = require('../../lib/remove_blank_fields')
 const requireToken = passport.authenticate('bearer', { session: false })
 const router = express.Router()
 
-router.get('/workout-templates', requireToken, (req, res, next) => {
+router.get('/workout-templates', (req, res, next) => {
   WorkoutTemplate.find()
+    .populate('exercises')
     .then(workoutTemplates => {
       return workoutTemplates.map(workoutTemplate => workoutTemplate.toObject())
     })
@@ -19,6 +20,7 @@ router.get('/workout-templates', requireToken, (req, res, next) => {
 
 router.get('/workout-templates/:id', requireToken, (req, res, next) => {
   WorkoutTemplate.findById(req.params.id)
+    .populate('exercises')
     .then(handle404)
     .then(workoutTemplate => res.status(200).json({ workoutTemplate: workoutTemplate.toObject() }))
     .catch(next)

@@ -6,30 +6,44 @@ const exerciseSchema = new mongoose.Schema({
     required: true
   },
   muscles: [{
-    type: String,
+    type: Number,
     required: true
+  }],
+  musclesSecondary: [{
+    type: Number
+  }],
+  category: [{
+    type: Number
+  }],
+  equipment: [{
+    type: Number
   }],
   description: {
     type: String
   },
   sets: {
     type: Number,
-    required: true
+    default: 0
   },
   repetions: {
     type: Number,
-    required: true
+    default: 0
   },
   weight: {
-    type: Number
+    type: Number,
+    default: 0
   },
   restTime: {
     type: Number,
-    required: true
+    default: 0
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+    required: true
+  },
+  id: {
+    type: Number,
     required: true
   }
 }, {

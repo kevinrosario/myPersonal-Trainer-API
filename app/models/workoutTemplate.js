@@ -10,7 +10,8 @@ const workoutTemplateSchema = new mongoose.Schema({
     ref: 'Exercise'
   }],
   approximateDuration: {
-    type: Number
+    type: Number,
+    default: 0
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,

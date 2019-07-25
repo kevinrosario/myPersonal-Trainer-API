@@ -27,6 +27,16 @@ router.get('/workout-templates', (req, res, next) => {
     .catch(next)
 })
 
+router.get('/user-workout-templates', requireToken, (req, res, next) => {
+  WorkoutTemplate.find({ owner: req.user.id })
+    .populate('exercises')
+    .then(workoutTemplates => {
+      return workoutTemplates.map(workoutTemplate => workoutTemplate.toObject())
+    })
+    .then(workoutTemplates => res.status(200).json({ workoutTemplates: workoutTemplates }))
+    .catch(next)
+})
+
 router.get('/workout-templates/:id', requireToken, (req, res, next) => {
   WorkoutTemplate.findById(req.params.id)
     .populate('exercises')
@@ -68,6 +78,7 @@ router.post('/workout-templates', requireToken, (req, res, next) => {
 
 router.patch('/workout-templates/:id', requireToken, removeBlanks, (req, res, next) => {
   delete req.body.workoutTemplate.owner
+  console.log(req.body)
 
   WorkoutTemplate.findById(req.params.id)
     .then(handle404)
@@ -76,6 +87,7 @@ router.patch('/workout-templates/:id', requireToken, removeBlanks, (req, res, ne
       return workoutTemplate.update(req.body.workoutTemplate)
     })
     .then(() => {
+      // send the updated template back
       WorkoutTemplate.findById(req.params.id)
         .populate('exercises')
         .then(handle404)
@@ -83,6 +95,20 @@ router.patch('/workout-templates/:id', requireToken, removeBlanks, (req, res, ne
         .catch(next)
     })
     .catch(next)
+})
+
+router.patch('/workout-templates/:id/add-exercises', requireToken, (req, res, next) => {
+  WorkoutTemplate.findByIdAndUpdate(req.params.id,
+    { $push: { exercises: req.body.exercises[0]._id } },
+    { safe: true, upsert: true },
+    function (err, workoutTemplate) {
+      if (err) {
+        console.log(err)
+      } else {
+        return res.status(200).json({ workoutTemplate: workoutTemplate.toObject() })
+      }
+    }
+  )
 })
 
 router.delete('/workout-templates/:id', requireToken, (req, res, next) => {

@@ -31,8 +31,8 @@ router.get('/exercises/:id', requireToken, (req, res, next) => {
 router.post('/exercises', requireToken, (req, res, next) => {
   req.body.exercise.owner = req.user.id
   Exercise.create(req.body.exercise)
-    .then(workoutTemplate => {
-      res.status(201).json({ workoutTemplate: workoutTemplate.toObject() })
+    .then(exercise => {
+      res.status(201).json({ exercise: exercise.toObject() })
     })
     .catch(next)
 })
@@ -52,6 +52,23 @@ router.patch('/exercises/:id', requireToken, removeBlanks, (req, res, next) => {
         .then(handle404)
         .then(workoutTemplate => res.status(200).json({ workoutTemplate: workoutTemplate.toObject() }))
         .catch(next)
+    })
+    .catch(next)
+})
+
+router.post('/multiple-exercises', requireToken, (req, res, next) => {
+  Promise.all(req.body.exercises.map((exercise, index) => {
+    exercise.owner = req.user.id
+    // Return promise of creating a new Exercise
+    return Exercise.create(exercise)
+      .then(exercise => {
+        return exercise
+      }) // return the exercise when created
+      .catch(next)
+  }))
+    .then(exercises => { return exercises.map(exercise => exercise.toObject()) })
+    .then(exercises => {
+      res.status(201).json({ exercises: exercises })
     })
     .catch(next)
 })

@@ -74,7 +74,6 @@ router.post('/multiple-exercises', requireToken, (req, res, next) => {
 })
 
 router.delete('/exercises/:id', requireToken, (req, res, next) => {
-  console.log(req.body)
   Exercise.findById(req.params.id)
     .then(handle404)
     .then(exercise => {

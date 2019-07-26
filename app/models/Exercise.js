@@ -42,7 +42,7 @@ const exerciseSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
-  id: {
+  id: { // API ID
     type: Number,
     required: true
   }

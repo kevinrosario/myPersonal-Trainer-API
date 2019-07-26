@@ -78,7 +78,6 @@ router.post('/workout-templates', requireToken, (req, res, next) => {
 
 router.patch('/workout-templates/:id', requireToken, removeBlanks, (req, res, next) => {
   delete req.body.workoutTemplate.owner
-  console.log(req.body)
 
   WorkoutTemplate.findById(req.params.id)
     .then(handle404)
@@ -96,20 +95,6 @@ router.patch('/workout-templates/:id', requireToken, removeBlanks, (req, res, ne
     })
     .catch(next)
 })
-
-// router.patch('/workout-templates/:id/add-exercises', requireToken, (req, res, next) => {
-//   WorkoutTemplate.findByIdAndUpdate(req.params.id,
-//     { $push: { exercises: req.body.exercises[0]._id } },
-//     { safe: true, upsert: true },
-//     function (err, workoutTemplate) {
-//       if (err) {
-//         console.log(err)
-//       } else {
-//         return res.status(200).json({ workoutTemplate: workoutTemplate.toObject() })
-//       }
-//     }
-//   )
-// })
 
 router.delete('/workout-templates/:id', requireToken, (req, res, next) => {
   WorkoutTemplate.findById(req.params.id)

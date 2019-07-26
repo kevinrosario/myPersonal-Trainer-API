@@ -74,13 +74,20 @@ router.post('/multiple-exercises', requireToken, (req, res, next) => {
 })
 
 router.delete('/exercises/:id', requireToken, (req, res, next) => {
+  console.log(req.body)
   Exercise.findById(req.params.id)
     .then(handle404)
     .then(exercise => {
       requireOwnership(req, exercise)
       exercise.remove()
     })
-    .then(() => res.sendStatus(204))
+    .then(() => {
+      WorkoutTemplate.findById(req.body.workoutTemplateID)
+        .populate('exercises')
+        .then(handle404)
+        .then(workoutTemplate => res.status(200).json({ workoutTemplate: workoutTemplate.toObject() }))
+        .catch(next)
+    })
     .catch(next)
 })
 

@@ -1,6 +1,6 @@
 # myPersonal Trainer
 
-This is the back end of myPersonal Trainer application which is an application to keep track of an user workout routines. It's designed to let users create workouts and edit them adding or removing exercises. Users can create and edit workouts only by logging in the application.
+This is the back end of myPersonal Trainer application which is an application to keep track of users workout routines. It's designed to let users create workouts and edit them adding or removing exercises. Users can create and edit workouts only by logging in the application.
 
 ### User Stories
 - As a unregistered user, I would like to sign up with email and password.
@@ -78,7 +78,5 @@ I want to add a timer that will help me rest between sets of every exercise in t
 [Back-End Repository](https://github.com/kevinrosario/myPersonal-Trainer-API)
 
 [Back-end app](https://mypersonal-trainer.herokuapp.com/)
-
-[Wireframe](https://imgur.com/p2kaWSt)
 
 [IRB](https://imgur.com/wDuDf0O)
